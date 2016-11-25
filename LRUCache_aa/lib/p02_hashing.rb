@@ -29,6 +29,15 @@ class Hash
   # This returns 0 because rspec will break if it returns nil
   # Make sure to implement an actual Hash#hash method
   def hash
-    0
+    sum = self.length.hash
+    sorted_keys = self.keys.sort
+    sorted_keys.each do |key|
+      sum = sum.hash + self[key].ord.hash
+      sum += sum.hash
+    end
+
+    self.length.times { sum = sum.hash }
+
+    sum
   end
 end
