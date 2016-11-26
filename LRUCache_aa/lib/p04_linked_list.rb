@@ -62,14 +62,18 @@ class LinkedList
   end
 
   def append(key, val)
-    node = Link.new(key, val)
-
-    node.prev = @tail
-    @tail = node
-    if @head
-      node.prev.next = node
+    if include?(key)
+      update(key, val)
     else
-      @head = node
+      node = Link.new(key, val)
+
+      node.prev = @tail
+      @tail = node
+      if @head
+        node.prev.next = node
+      else
+        @head = node
+      end
     end
   end
 
@@ -81,7 +85,7 @@ class LinkedList
 
     return nil if curr_link.next.nil?
 
-    update(key, value, curr_link.next)
+    update(key, val, curr_link.next)
   end
 
   def remove(key, curr_link = @head)
