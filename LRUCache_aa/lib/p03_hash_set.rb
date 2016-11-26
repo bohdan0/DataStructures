@@ -4,12 +4,13 @@ class HashSet
   attr_reader :count
 
   def initialize(num_buckets = 8)
-    @store = Array.new(num_buckets) { Array.new }
+    @store = Array.new(num_buckets) { [] }
     @count = 0
   end
 
   def insert(key)
     resize! if @count >= num_buckets
+
     self[key] << key
     @count += 1
   end
@@ -39,8 +40,8 @@ class HashSet
     new_store = Array.new(@store.size * 2) { [] }
     @store.each do |bucket|
       bucket.each do |item|
-        spot = item % new_store.size
-        new_store[spot].push(item)
+        spot = item.hash % new_store.size
+        new_store[spot] << item
       end
     end
 
