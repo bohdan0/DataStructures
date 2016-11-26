@@ -60,10 +60,6 @@ class LinkedList
   end
 
   def append(key, val)
-    include?(key) ? update(key, val) : create_node(key, val)
-  end
-
-  def create_node(key, val)
     node = Link.new(key, val)
     set_up_node(node)
   end
