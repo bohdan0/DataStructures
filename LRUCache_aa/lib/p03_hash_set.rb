@@ -10,16 +10,16 @@ class HashSet
 
   def insert(key)
     resize! if @count >= num_buckets
-    self[key.hash] << key
+    self[key] << key
     @count += 1
   end
 
   def include?(key)
-    self[key.hash].include?(key)
+    self[key].include?(key)
   end
 
   def remove(key)
-    self[key.hash].delete(key)
+    self[key].delete(key)
     @count -= 1
   end
 
@@ -27,7 +27,7 @@ class HashSet
 
   def [](num)
     # optional but useful; return the bucket corresponding to `num`
-    spot = num % num_buckets
+    spot = num.hash % num_buckets
     @store[spot]
   end
 
