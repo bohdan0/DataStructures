@@ -11,36 +11,30 @@ class HashMap
   end
 
   def include?(key)
-    self.each do |k, v|
-      return true if key == k
-    end
+    self.each { |k, _| return true if key == k }
 
     false
   end
 
   def set(key, val)
-    resize! if @count >= num_buckets
+    resize! if @count == num_buckets
 
-    hashed_key = key.hash
-    spot = hashed_key % num_buckets
-    if @store[spot].include?(key)
-      @store[spot].update(key, val)
+    list = bucket(key)
+
+    if list.include?(key)
+      list.update(key, val)
     else
-      @store[spot].append(key, val)
+      list.append(key, val)
       @count += 1
     end
   end
 
   def get(key)
-    hashed_key = key.hash
-    spot = hashed_key % num_buckets
-    @store[spot].get(key)
+    bucket(key).get(key)
   end
 
   def delete(key)
-    hashed_key = key.hash
-    spot = hashed_key % num_buckets
-    @store[spot].remove(key)
+    bucket(key).remove(key)
     @count -= 1
   end
 
@@ -86,6 +80,9 @@ class HashMap
 
   def bucket(key)
     # optional but useful; return the bucket corresponding to `key`
+    hashed_key = key.hash
+    spot = hashed_key % num_buckets
+    @store[spot]
   end
 
 
